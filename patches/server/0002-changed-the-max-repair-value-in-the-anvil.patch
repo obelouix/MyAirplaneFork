@@ -1,0 +1,110 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Louis <3874662+obelouix@users.noreply.github.com>
+Date: Thu, 10 Jun 2021 11:20:02 +0200
+Subject: [PATCH] changed the max repair value in the anvil
+
+
+diff --git a/src/main/java/net/minecraft/world/inventory/ContainerAnvil.java b/src/main/java/net/minecraft/world/inventory/ContainerAnvil.java
+index ae5674ae9c539720a657838a640050cd3b4dc5b5..2d03cd49dcd8af7ffb13a6103a2fb2b5523fa6d3 100644
+--- a/src/main/java/net/minecraft/world/inventory/ContainerAnvil.java
++++ b/src/main/java/net/minecraft/world/inventory/ContainerAnvil.java
+@@ -1,10 +1,6 @@
+ package net.minecraft.world.inventory;
+ 
+-import java.util.Iterator;
+-import java.util.Map;
+ import net.minecraft.network.chat.ChatComponentText;
+-import net.minecraft.network.chat.IChatBaseComponent;
+-import net.minecraft.tags.Tag;
+ import net.minecraft.tags.TagsBlock;
+ import net.minecraft.world.entity.player.EntityHuman;
+ import net.minecraft.world.entity.player.PlayerInventory;
+@@ -18,9 +14,11 @@ import net.minecraft.world.level.block.state.IBlockData;
+ import org.apache.commons.lang3.StringUtils;
+ import org.apache.logging.log4j.LogManager;
+ import org.apache.logging.log4j.Logger;
++import org.bukkit.craftbukkit.inventory.CraftInventoryView;
++
++import java.util.Map;
+ 
+ // CraftBukkit start
+-import org.bukkit.craftbukkit.inventory.CraftInventoryView;
+ // CraftBukkit end
+ 
+ public class ContainerAnvil extends ContainerAnvilAbstract {
+@@ -30,7 +28,7 @@ public class ContainerAnvil extends ContainerAnvilAbstract {
+     public String renameText;
+     public final ContainerProperty levelCost;
+     // CraftBukkit start
+-    public int maximumRepairCost = 40;
++    public int maximumRepairCost = Integer.MAX_VALUE; //Obelouix - replace 40 by (2^31)-1
+     private CraftInventoryView bukkitEntity;
+     // CraftBukkit end
+ 
+@@ -46,7 +44,7 @@ public class ContainerAnvil extends ContainerAnvilAbstract {
+ 
+     @Override
+     protected boolean a(IBlockData iblockdata) {
+-        return iblockdata.a((Tag) TagsBlock.ANVIL);
++        return iblockdata.a(TagsBlock.ANVIL);
+     }
+ 
+     @Override
+@@ -78,7 +76,7 @@ public class ContainerAnvil extends ContainerAnvilAbstract {
+         this.containerAccess.a((world, blockposition) -> {
+             IBlockData iblockdata = world.getType(blockposition);
+ 
+-            if (!entityhuman.abilities.canInstantlyBuild && iblockdata.a((Tag) TagsBlock.ANVIL) && entityhuman.getRandom().nextFloat() < 0.12F) {
++            if (!entityhuman.abilities.canInstantlyBuild && iblockdata.a(TagsBlock.ANVIL) && entityhuman.getRandom().nextFloat() < 0.12F) {
+                 IBlockData iblockdata1 = BlockAnvil.c(iblockdata);
+                 // Paper start
+                 com.destroystokyo.paper.event.block.AnvilDamagedEvent event = new com.destroystokyo.paper.event.block.AnvilDamagedEvent(getBukkitView(), iblockdata1 != null ? org.bukkit.craftbukkit.block.data.CraftBlockData.fromData(iblockdata1) : null);
+@@ -173,14 +171,11 @@ public class ContainerAnvil extends ContainerAnvilAbstract {
+                     Map<Enchantment, Integer> map1 = EnchantmentManager.a(itemstack2);
+                     boolean flag1 = false;
+                     boolean flag2 = false;
+-                    Iterator iterator = map1.keySet().iterator();
+-
+-                    while (iterator.hasNext()) {
+-                        Enchantment enchantment = (Enchantment) iterator.next();
+ 
++                    for (Enchantment enchantment : map1.keySet()) {
+                         if (enchantment != null) {
+-                            int l1 = (Integer) map.getOrDefault(enchantment, 0);
+-                            int i2 = (Integer) map1.get(enchantment);
++                            int l1 = map.getOrDefault(enchantment, 0);
++                            int i2 = map1.get(enchantment);
+ 
+                             i2 = l1 == i2 ? i2 + 1 : Math.max(i2, l1);
+                             boolean flag3 = enchantment.canEnchant(itemstack);
+@@ -189,11 +184,7 @@ public class ContainerAnvil extends ContainerAnvilAbstract {
+                                 flag3 = true;
+                             }
+ 
+-                            Iterator iterator1 = map.keySet().iterator();
+-
+-                            while (iterator1.hasNext()) {
+-                                Enchantment enchantment1 = (Enchantment) iterator1.next();
+-
++                            for (Enchantment enchantment1 : map.keySet()) {
+                                 if (enchantment1 != enchantment && !enchantment.isCompatible(enchantment1)) {
+                                     flag3 = false;
+                                     ++i;
+@@ -254,7 +245,7 @@ public class ContainerAnvil extends ContainerAnvilAbstract {
+             } else if (!this.renameText.equals(itemstack.getName().getString())) {
+                 b1 = 1;
+                 i += b1;
+-                itemstack1.a((IChatBaseComponent) (new ChatComponentText(this.renameText)));
++                itemstack1.a(new ChatComponentText(this.renameText));
+             }
+ 
+             this.levelCost.set(j + i);
+@@ -302,7 +293,7 @@ public class ContainerAnvil extends ContainerAnvilAbstract {
+             if (StringUtils.isBlank(s)) {
+                 itemstack.s();
+             } else {
+-                itemstack.a((IChatBaseComponent) (new ChatComponentText(this.renameText)));
++                itemstack.a(new ChatComponentText(this.renameText));
+             }
+         }
+ 
