@@ -1,7 +1,7 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Paul Sauve <paul@technove.co>
 Date: Wed, 3 Feb 2021 23:02:38 -0600
-Subject: [PATCH] MyAirplaneFork branding
+Subject: [PATCH] Water branding
 
 
 diff --git a/pom.xml b/pom.xml
@@ -14,8 +14,8 @@ index c917f825378dd16a329105b4e7fcc8882755bc5a..840855427e92b08de3ebcc23a8a5aeda
          <dependency>
 -            <groupId>gg.airplane</groupId>
 -            <artifactId>airplane-api</artifactId>
-+            <groupId>com.mygroupid</groupId>
-+            <artifactId>myairplanefork-api</artifactId>
++            <groupId>fr.obelouix</groupId>
++            <artifactId>water-api</artifactId>
              <version>${project.version}</version>
              <scope>compile</scope>
          </dependency>
@@ -29,8 +29,8 @@ index b9c5479e5561f8fe68ea8f94fbf4e64de8a53bf9..97c9afc2bc2a1e464eea9c3cfb68a020
      public Component getVersionMessage(@Nonnull String serverVersion) {
 -        String[] parts = serverVersion.substring("git-Airplane-".length()).split("[-\\s]"); // Tuinity
 -        final Component updateMessage = getUpdateStatusMessage("TECHNOVE/Airplane", GITHUB_BRANCH_NAME, parts[0]); // Tuinity
-+        String[] parts = serverVersion.substring("git-MyAirplaneFork-".length()).split("[-\\s]"); // Tuinity // MyAirplaneFork
-+        final Component updateMessage = getUpdateStatusMessage("MyGithubName/MyAirplaneFork", GITHUB_BRANCH_NAME, parts[0]); // Tuinity // MyAirplaneFork
++        String[] parts = serverVersion.substring("git-Water-".length()).split("[-\\s]"); // Tuinity // Water
++        final Component updateMessage = getUpdateStatusMessage("obelouix/Water", GITHUB_BRANCH_NAME, parts[0]); // Tuinity // Water
          final Component history = getHistory();
  
          return history != null ? TextComponent.ofChildren(updateMessage, Component.newline(), history) : updateMessage;
@@ -43,7 +43,7 @@ index 2bb00a42492b08036e984d3e1d9a564d4b4226c2..1ee3e90ef754781b6f5e5739ab0c59cf
  
      public String getServerModName() {
 -        return "Airplane"; // Airplane // Tuinity //Paper - Paper > // Spigot - Spigot > // CraftBukkit - cb > vanilla!
-+        return "MyAirplaneFork"; // MyAirplaneFork // Airplane // Tuinity //Paper - Paper > // Spigot - Spigot > // CraftBukkit - cb > vanilla!
++        return "Water"; // MyAirplaneFork // Airplane // Tuinity //Paper - Paper > // Spigot - Spigot > // CraftBukkit - cb > vanilla! //Water
      }
  
      public CrashReport b(CrashReport crashreport) {
@@ -56,7 +56,7 @@ index 34b9fe484ba16193cfcb938cb0dc51b2066acc5f..d2f7e52cb1fa55c4bfe27c6a2042fe82
  
  public final class CraftServer implements Server {
 -    private final String serverName = "Airplane"; // Paper // Tuinity // Airplane
-+    private final String serverName = "MyAirplaneFork"; // Paper // Tuinity // Airplane // MyAirplaneFork
++    private final String serverName = "Water"; // Paper // Tuinity // Airplane // MyAirplaneFork //Water
      private final String serverVersion;
      private final String bukkitVersion = Versioning.getBukkitVersion();
      private final Logger logger = Logger.getLogger("Minecraft");
@@ -66,10 +66,10 @@ index 1788d79ea489e446d3d9f541693d4ba3dfc26015..0e18f778a434b8b22bb595f06cc6ef78
 +++ b/src/main/java/org/bukkit/craftbukkit/util/Versioning.java
 @@ -11,7 +11,7 @@ public final class Versioning {
      public static String getBukkitVersion() {
-         String result = "Unknown-Version";
+         String result = "Water 1.16.5"; //Water
  
 -        InputStream stream = Bukkit.class.getClassLoader().getResourceAsStream("META-INF/maven/gg.airplane/airplane-api/pom.properties"); // Tuinity // Airplane
-+        InputStream stream = Bukkit.class.getClassLoader().getResourceAsStream("META-INF/maven/com.mygroupid/myairplanefork-api/pom.properties"); // Tuinity // Airplane
++        InputStream stream = Bukkit.class.getClassLoader().getResourceAsStream("META-INF/maven/fr.obelouix/water-api/pom.properties"); // Tuinity // Airplane //water
          Properties properties = new Properties();
  
          if (stream != null) {

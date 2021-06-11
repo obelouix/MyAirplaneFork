@@ -7,12 +7,12 @@ plugins {
 }
 
 toothpick {
-    forkName = "MyAirplaneFork"
-    groupId = "com.mygroupid"
+    forkName = "Water"
+    groupId = "fr.obelouix"
     val versionTag = System.getenv("BUILD_NUMBER")
         ?: "\"${gitCmd("rev-parse", "--short", "HEAD").output}\""
     forkVersion = "git-$forkName-$versionTag"
-    forkUrl = "https://github.com/MyName/MyAirplaneFork"
+    forkUrl = "https://github.com/obelouix/Water"
 
     minecraftVersion = "1.16.5"
     nmsPackage = "1_16_R3"
@@ -21,7 +21,7 @@ toothpick {
     upstream = "Airplane"
     upstreamBranch = "origin/master"
 
-    paperclipName = "launcher-myairplanefork"
+    paperclipName = "launcher-watermc"
 
     server {
         project = project(":$forkNameLowercase-server")
@@ -44,8 +44,8 @@ subprojects {
     }
 
     java {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_16
+        targetCompatibility = JavaVersion.VERSION_16
         withSourcesJar()
     }
 }
